@@ -1,4 +1,4 @@
-
+import picamera
 import datetime
 import json
 import requests
@@ -11,19 +11,21 @@ import picamera
 conversion_type = 'RGB'   # 'RGB' or 'L'
 
 
-# here we read it from raspberry
-img = Image.open("picture.jpeg").convert(conversion_type)
-arr = np.array(img)
-#img.show()
-shape = arr.shape
-imageList = arr.flatten().tolist()
+# taking picture
+with picamera.PiCamera() as camera:
+    camera.resolution = (320, 240)
+    camera.framerate = 3
+    output = np.empty((240, 320, 3), dtype=np.uint8)
+    camera.capture(output, 'rgb')
+    shape = output.shape
+    imageList = output.flatten().tolist()
 
 
 #location = 'localhost'
 location = '199.60.17.30'
 #port = 80
 #serveradd = 'http://' + location + ':' + str(port) + '/cgi-bin/calculate_offload.py'
-serveradd = 'http://' + location + '/cgi-bin/calculate_offload_RGB.py'
+serveradd = 'http://' + location + '/cgi-bin/Facedetection2.py'
 
 
 payload = {'image': imageList, 'shape': shape, 'type': conversion_type}
@@ -35,7 +37,7 @@ for i in range(1):
 	backData = json.loads(r.text)
 	#print(r.text)
 	backImage = backData['image']
-	coord = backData['coord']
+	#coord = backData['coord']
 t2 = datetime.datetime.now()
 tdif = t2 - t1
 print(str(tdif.microseconds/1e6) + ' seconds')
@@ -44,16 +46,10 @@ print(str(tdif.microseconds/1e6) + ' seconds')
 arrback = np.array(backImage, dtype=np.uint8).reshape(shape)
 
 # show in matplotlib
-fig,ax = plt.subplots(1)
-ax.imshow(arrback)
-rect = patches.Rectangle((coord[0],coord[1]),coord[2],coord[3],linewidth=1,edgecolor='r',facecolor='none')
-ax.add_patch(rect)
+#fig,ax = plt.subplots(1)
+plt.imshow(arrback)
+#rect = patches.Rectangle((coord[0],coord[1]),coord[2],coord[3],linewidth=1,edgecolor='r',facecolor='none')
+#ax.add_patch(rect)
 plt.show()
 
 
-
-#imgback = Image.fromarray(arrback, 'RGB')
-#imgback.show()
-
-#print("\n headers :\n" + str(r.headers))
-#print("\n server status:" + str(r.status_code))
