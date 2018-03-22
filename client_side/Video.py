@@ -3,6 +3,17 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
 #import cv2
+import picamera
+import datetime
+import json
+import requests
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import picamera
+
+conversion_type = 'RGB'   # 'RGB' or 'L'
 
 
 #location = 'localhost'
