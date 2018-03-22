@@ -24,7 +24,7 @@ with picamera.PiCamera() as camera:
 #location = 'localhost'
 location = '199.60.17.30'
 #port = 80
-#serveradd = 'http://' + location + ':' + str(port) + '/cgi-bin/calculate_offload.py'
+#serveradd = 'http://' + location + ':' + '/cgi-bin/calculate_offload_RGB.py'
 serveradd = 'http://' + location + '/cgi-bin/Facedetection2.py'
 
 
@@ -34,7 +34,10 @@ mydata = json.JSONEncoder().encode(payload)
 t1 = datetime.datetime.now()
 for i in range(1):
 	r = requests.post(serveradd, data=mydata)
-	backData = json.loads(r.text)
+	file = open('test', 'w')
+	file.write(r.text.split('[ INFO:0]')[0])
+	file.close()
+	backData = json.loads(r.text.split('[ INFO:0]')[0])
 	#print(r.text)
 	backImage = backData['image']
 	#coord = backData['coord']
