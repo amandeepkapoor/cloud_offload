@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import picamera
 
+plt.ion()
+
 conversion_type = 'RGB'   # 'RGB' or 'L'
 
 
@@ -59,6 +61,7 @@ for frame in camera.capture_continuous(rawCapture, format='rgb', use_video_port=
 	plt.imshow(arrback)
 
 	plt.show()
+	plt.pause(.2)
 
 	
 	# show the frame
