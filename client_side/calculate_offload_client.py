@@ -14,8 +14,8 @@ imageList = arr.flatten().tolist()
 
 
 
-location = 'localhost'
-#location = '199.60.17.30'
+#location = 'localhost'
+location = '199.60.17.30'
 #port = 80
 #serveradd = 'http://' + location + ':' + str(port) + '/cgi-bin/calculate_offload.py'
 serveradd = 'http://' + location + '/cgi-bin/calculate_offload.py'
