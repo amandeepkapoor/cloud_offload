@@ -33,7 +33,7 @@ for (x,y,w,h) in faces:
 #imgback = Image.fromarray(arrback, conversion_type).rotate(180)
 arr = np.array(img)
 imageList = arr.flatten().tolist()
-#myjson['image'] = imageList
+myjson['image'] = imageList
 #myjson['coord'] = [50, 60, 200, 200]
 
 print(json.dumps(myjson))
