@@ -17,7 +17,7 @@ conversion_type = 'RGB'   # 'RGB' or 'L'
 
 
 #location = 'localhost'
-location = '199.60.17.30'
+location = '199.60.17.11'
 #port = 80
 #serveradd = 'http://' + location + ':' + str(port) + '/cgi-bin/calculate_offload.py'
 serveradd = 'http://' + location + '/cgi-bin/Facedetection2.py'
