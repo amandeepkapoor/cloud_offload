@@ -14,7 +14,7 @@ import matplotlib.patches as patches
 import picamera
 
 conversion_type = 'RGB'   # 'RGB' or 'L'
-
+plt.ion()
 
 #location = 'localhost'
 location = '199.60.17.11'
@@ -49,8 +49,12 @@ for frame in camera.capture_continuous(rawCapture, format='rgb', use_video_port=
 
 	for i in range(1):
 		r = requests.post(serveradd, data=mydata)
+		# writing to file for testing
+		file = open('test.txt', 'w')
+		file.write(r.text)
+		file.close()
+		# ----------
 		backData = json.loads(r.text.split('[ INFO:0]')[0])
-		#print(r.text)
 		backImage = backData['image']
 
 
@@ -59,6 +63,7 @@ for frame in camera.capture_continuous(rawCapture, format='rgb', use_video_port=
 	plt.imshow(arrback)
 
 	plt.show()
+	plt.pause(.01)
 
 	
 	# show the frame

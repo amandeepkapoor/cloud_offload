@@ -22,7 +22,7 @@ with picamera.PiCamera() as camera:
 
 
 #location = 'localhost'
-location = '199.60.17.30'
+location = '199.60.17.11'
 #port = 80
 #serveradd = 'http://' + location + ':' + '/cgi-bin/calculate_offload_RGB.py'
 serveradd = 'http://' + location + '/cgi-bin/Facedetection2.py'
