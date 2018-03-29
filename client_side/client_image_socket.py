@@ -1,6 +1,7 @@
 import io
 import socket
 import struct
+import datetime
 import time
 import picamera
 from PIL import Image
@@ -16,7 +17,7 @@ try:
     with picamera.PiCamera() as camera:
         camera.resolution = (640, 480)
         # Start a preview and let the camera warm up for 2 seconds
-        camera.start_preview()
+        #camera.start_preview()
         time.sleep(2)
 
         # Note the start time and construct a stream to hold image data
@@ -25,7 +26,7 @@ try:
         # our protocol simple)
         start = time.time()
         stream = io.BytesIO()
-        for foo in camera.capture_continuous(stream, 'jpeg'):
+        for foo in camera.capture_continuous(stream, 'rgb'):
             # Write the length of the capture to the stream and flush to
             # ensure it actually gets sent
             t1_network = datetime.datetime.now()
@@ -39,7 +40,8 @@ try:
             image_len = struct.unpack('<L', connection.read(struct.calcsize('<L')))[0]
             stream.write(connection.read(image_len))
             stream.seek(0)
-            image = Image.open(stream)
+            #image = Image.open(stream)
+            image = Image.frombytes('RGB', (640, 480), bytearray(stream))
             print('Image is %dx%d' % image.size)
             t2_network = datetime.datetime.now()
             tdif_network = t2_network - t1_network
