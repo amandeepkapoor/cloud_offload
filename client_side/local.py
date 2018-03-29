@@ -68,7 +68,7 @@ for frame in camera.capture_continuous(rawCapture, format='rgb', use_video_port=
 
 	t2 = datetime.datetime.now()
 	tdif = t2 - t1
-	print('conversion time =' + str(tdif.microseconds/1e6) + ' seconds')
+	print('conversion time =' + str(tdif.seconds + tdif.microseconds/1e6) + ' seconds')
 	
 	plt.imshow(arrback)
 
