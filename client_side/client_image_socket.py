@@ -26,7 +26,7 @@ try:
         # our protocol simple)
         start = time.time()
         stream = io.BytesIO()
-        for foo in camera.capture_continuous(stream, 'rgb'):
+        for foo in camera.capture_continuous(stream, 'jpeg'): #rgb
             # Write the length of the capture to the stream and flush to
             # ensure it actually gets sent
             t1_network = datetime.datetime.now()
@@ -38,15 +38,17 @@ try:
 
 	
             image_len = struct.unpack('<L', connection.read(struct.calcsize('<L')))[0]
+            print(image_len)
             stream.write(connection.read(image_len))
             stream.seek(0)
-            #image = Image.open(stream)
-            image = Image.frombytes('RGB', (640, 480), bytearray(stream))
+            image = Image.open(stream)
+            #image = Image.frombytes('RGB', (640,480,3), (bytearray(stream)*(640*480*3)))
             print('Image is %dx%d' % image.size)
             t2_network = datetime.datetime.now()
             tdif_network = t2_network - t1_network
             print('Total network time =' + str(tdif_network.seconds + tdif_network.microseconds/1e6) + ' seconds')
-
+            
+            image.show()
 	    
             # If we've been capturing for more than 30 seconds, quit
             if time.time() - start > 30:
