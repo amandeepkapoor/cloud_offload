@@ -30,7 +30,10 @@ try:
         image_stream = io.BytesIO()
         image_stream.write(connection.read(image_len))
         image_stream.seek(0)
-        arrback = np.asarray(bytearray(image_stream.read()), dtype=np.uint8).reshape(640,480,3)
+        img = Image.open(image_stream)
+        arrback = np.array(img)
+        #image_stream.seek(0)
+       # arrback = np.asarray(bytearray(image_stream.read()), dtype=np.uint8).reshape(640,480,3)
 
         ######OpenCV Starts Here
         print(arrback.shape)
@@ -44,18 +47,20 @@ try:
             for (ex,ey,ew,eh) in eyes:
                 cv.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
         ####OpenCV Ends####
-        print("End of OpenCV")	
-        file_bytes = arrback.tobytes()
-        f = io.BytesIO(file_bytes)
-
+        print("End of OpenCV")
+        image_stream.seek(0)	
+        image_stream.write(arrback.tobytes())
+       # file_bytes = arrback.tobytes()
+       # f = io.BytesIO(file_bytes)
+        
         # Rewind the stream, open it as an image with PIL and do some
         # processing on it
 	
-        connection.write(struct.pack('<L', f.tell()))
+        connection.write(struct.pack('<L', image_stream.tell()))
         connection.flush()
         print('----')
-        f.seek(0)
-        connection.write(f.read())
+        image_stream.seek(0)
+        connection.write(image_stream.read())
 
 finally:
     connection.close()
