@@ -10,6 +10,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import picamera
+import tkinter as tk
+from PIL import Image, ImageTk
 
 face_cascade = cv.CascadeClassifier('harclass/haarcascade_frontalface_default.xml')
 eye_cascade = cv.CascadeClassifier('harclass/haarcascade_eye.xml')
@@ -28,9 +30,9 @@ plt.ion()
 
 # initialize the camera and grab a reference to the raw camera capture
 camera = PiCamera()
-camera.resolution = (1920, 1080)
+camera.resolution = (640, 480)
 camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(1920, 1080))
+rawCapture = PiRGBArray(camera, size=(640, 480))
  
 # allow the camera to warmup
 time.sleep(0.1)
@@ -57,6 +59,7 @@ for frame in camera.capture_continuous(rawCapture, format='rgb', use_video_port=
 
 	t1 = datetime.datetime.now()
 	gray = cv.cvtColor(arrback, cv.COLOR_BGR2GRAY)
+	print(gray)
 	faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 	for (x,y,w,h) in faces:
     		cv.rectangle(arrback,(x,y),(x+w,y+h),(255,0,0),2)

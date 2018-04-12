@@ -10,7 +10,7 @@ server_socket.bind(('0.0.0.0', 23000))
 server_socket.listen(0)
 
 # Accept a single connection and make a file-like object out of it
-connection = server_socket.accept()[0].makefile('rb')
+connection = server_socket.accept()[0].makefile('rwb')
 try:
     while True:
         # Read the length of the image as a 32-bit unsigned int. If the
@@ -25,6 +25,7 @@ try:
         image_stream.write(connection.read(image_len))
         # Rewind the stream, open it as an image with PIL and do some
         # processing on it
+	
 	
 	connection.write(struct.pack('<L', image_stream.tell()))
 	connection.flush()

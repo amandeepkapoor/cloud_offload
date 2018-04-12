@@ -72,10 +72,10 @@ for frame in camera.capture_continuous(rawCapture, format='rgb', use_video_port=
 
 	arrback = np.array(backImage, dtype=np.uint8).reshape(shape)
 	
-	#plt.imshow(arrback)
+	plt.imshow(arrback)
 
-	#plt.show()
-	#plt.pause(.01)
+	plt.show()
+	plt.pause(.01)
 	
 	t2_convert_s2 = datetime.datetime.now()	
 	tdif_convert_s2 = t2_convert_s2 - t1_convert_s2
